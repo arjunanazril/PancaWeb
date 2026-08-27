@@ -1,0 +1,18 @@
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
+
+export async function requireUser() {
+  const session = await auth();
+  if (!session?.user?.id) redirect("/auth?reason=login-required");
+  return session;
+}
+
+export async function requireAdmin() {
+  const session = await requireUser();
+  if (session.user.role !== "ADMIN") redirect("/auth?reason=forbidden");
+  return session;
+}
+
+export async function getCurrentSession() {
+  return auth();
+}

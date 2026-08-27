@@ -1,0 +1,32 @@
+import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { signInWithGoogle } from "@/lib/actions/auth";
+import { auth } from "@/auth";
+import { Button } from "@/components/ui/button";
+
+export const metadata: Metadata = { title: "Login" };
+
+type AuthPageProps = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
+
+export default async function AuthPage({ searchParams }: AuthPageProps) {
+  const session = await auth();
+  if (session?.user) redirect("/");
+  const params = await searchParams;
+  const reason = typeof params.reason === "string" ? params.reason : null;
+
+  return (
+    <section className="bg-surface-soft py-20">
+      <div className="container-shell max-w-lg rounded-[2rem] border border-border-soft bg-white p-8 shadow-xl">
+        <p className="text-sm font-bold uppercase tracking-[0.22em] text-primary">Autentikasi</p>
+        <h1 className="mt-4 text-3xl font-black text-navy">Masuk ke PancaRuang</h1>
+        <p className="mt-3 leading-7 text-navy/70">Masuk dengan akun Google untuk mengirim feedback dan melanjutkan pengalaman belajar di PancaRuang.</p>
+        {reason ? <p className="mt-4 rounded-2xl bg-gold/20 px-4 py-3 text-sm text-navy">{reason === "forbidden" ? "Akses pengelola hanya untuk akun yang berwenang." : "Silakan login untuk melanjutkan."}</p> : null}
+        <form action={signInWithGoogle} className="mt-6">
+          <Button type="submit" className="w-full">Lanjut dengan Google</Button>
+        </form>
+      </div>
+    </section>
+  );
+}
