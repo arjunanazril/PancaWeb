@@ -53,11 +53,34 @@ Di Vercel, isi environment variables:
 
 ```env
 AUTH_URL=https://domain-production-kamu.com
+NEXTAUTH_URL=https://domain-production-kamu.com
+AUTH_SECRET=secret-random-yang-panjang
 AUTH_GOOGLE_ID=client-id-dari-google
 AUTH_GOOGLE_SECRET=client-secret-dari-google
 ADMIN_EMAIL=arjunanazril486@gmail.com
 DATABASE_URL=neon-connection-string
 BLOB_READ_WRITE_TOKEN=vercel-blob-token
+```
+
+Jika kamu memakai nama env dari tutorial lain, aplikasi juga mendukung alias berikut:
+
+```env
+GOOGLE_CLIENT_ID=client-id-dari-google
+GOOGLE_CLIENT_SECRET=client-secret-dari-google
+NEXTAUTH_SECRET=secret-random-yang-panjang
+NEXTAUTH_URL=https://domain-production-kamu.com
+```
+
+Pastikan minimal salah satu pasangan ini ada:
+
+```txt
+AUTH_GOOGLE_ID + AUTH_GOOGLE_SECRET
+```
+
+atau:
+
+```txt
+GOOGLE_CLIENT_ID + GOOGLE_CLIENT_SECRET
 ```
 
 ## Admin Rule

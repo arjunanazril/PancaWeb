@@ -7,6 +7,8 @@ import { accounts, sessions, users, verificationTokens } from "@/lib/db/schema";
 import type { UserRole } from "@/types";
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "arjunanazril486@gmail.com";
+const GOOGLE_CLIENT_ID = process.env.AUTH_GOOGLE_ID ?? process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.AUTH_GOOGLE_SECRET ?? process.env.GOOGLE_CLIENT_SECRET;
 
 declare module "next-auth" {
   interface Session {
@@ -28,12 +30,13 @@ const adapter = db
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter,
+  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
   trustHost: true,
   session: { strategy: adapter ? "database" : "jwt" },
   providers: [
     Google({
-      clientId: process.env.AUTH_GOOGLE_ID,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+      clientId: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: false,
     }),
   ],
