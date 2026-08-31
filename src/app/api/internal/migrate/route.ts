@@ -4,8 +4,12 @@ import { getDatabaseUrl } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 const statements = [
-  `CREATE TYPE IF NOT EXISTS "public"."feedback_category" AS ENUM('CONTENT', 'DESIGN', 'BUG', 'SUGGESTION', 'OTHER')`,
-  `CREATE TYPE IF NOT EXISTS "public"."user_role" AS ENUM('USER', 'ADMIN')`,
+  `DO $$ BEGIN
+    CREATE TYPE "public"."feedback_category" AS ENUM('CONTENT', 'DESIGN', 'BUG', 'SUGGESTION', 'OTHER');
+  EXCEPTION WHEN duplicate_object THEN NULL; END $$`,
+  `DO $$ BEGIN
+    CREATE TYPE "public"."user_role" AS ENUM('USER', 'ADMIN');
+  EXCEPTION WHEN duplicate_object THEN NULL; END $$`,
   `CREATE TABLE IF NOT EXISTS "users" (
     "id" text PRIMARY KEY NOT NULL,
     "name" text,
