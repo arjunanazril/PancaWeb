@@ -9,10 +9,6 @@ const databaseUrl =
   process.env.POSTGRES_URL ||
   process.env.POSTGRES_PRISMA_URL;
 
-export function getDatabaseUrl() {
-  return databaseUrl;
-}
-
 export const db = databaseUrl
   ? drizzle(neon(databaseUrl), { schema })
   : null;
