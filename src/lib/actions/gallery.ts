@@ -21,6 +21,12 @@ function parseOptionalDate(value: string | undefined) {
   return Number.isNaN(date.getTime()) ? null : date;
 }
 
+function getBlobToken() {
+  const token = process.env.BLOB_READ_WRITE_TOKEN;
+  if (!token) throw new Error("BLOB_READ_WRITE_TOKEN is not configured.");
+  return token;
+}
+
 export async function createGalleryPost(formData: FormData) {
   const session = await requireAdmin();
   const image = formData.get("image");
@@ -52,6 +58,7 @@ export async function createGalleryPost(formData: FormData) {
     const blob = await put(`gallery/${slug}.${extension}`, image, {
       access: "public",
       addRandomSuffix: false,
+      token: getBlobToken(),
     });
 
     await database.insert(galleryPosts).values({
