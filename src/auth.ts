@@ -10,6 +10,19 @@ const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "arjunanazril486@gmail.com";
 const GOOGLE_CLIENT_ID = process.env.AUTH_GOOGLE_ID ?? process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.AUTH_GOOGLE_SECRET ?? process.env.GOOGLE_CLIENT_SECRET;
 
+function normalizeEmail(email: string | null | undefined) {
+  return email?.trim().toLowerCase() ?? "";
+}
+
+function isAdminEmail(email: string | null | undefined) {
+  return normalizeEmail(email) === normalizeEmail(ADMIN_EMAIL);
+}
+
+async function syncAdminRole(userId: string | undefined, email: string | null | undefined) {
+  if (!db || !userId || !isAdminEmail(email)) return;
+  await db.update(users).set({ role: "ADMIN", updatedAt: new Date() }).where(eq(users.id, userId));
+}
+
 declare module "next-auth" {
   interface Session {
     user: {
@@ -46,11 +59,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn({ user }) {
       if (!user.email) return false;
+      await syncAdminRole(user.id, user.email);
       return true;
     },
     async jwt({ token, user }) {
       if (user) {
-        token.role = user.email === ADMIN_EMAIL ? "ADMIN" : "USER";
+        token.role = isAdminEmail(user.email) ? "ADMIN" : "USER";
       }
       return token;
     },
@@ -59,14 +73,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const email = session.user.email;
       let role: UserRole = token.role === "ADMIN" ? "ADMIN" : "USER";
 
-      if (email && email === ADMIN_EMAIL) {
+      if (isAdminEmail(email)) {
         role = "ADMIN";
       }
 
       if (db && id) {
         const existing = await db.query.users.findFirst({ where: eq(users.id, id) });
         if (existing) {
-          role = existing.email === ADMIN_EMAIL ? "ADMIN" : existing.role;
+          role = isAdminEmail(existing.email) ? "ADMIN" : existing.role;
           if (existing.role !== role) {
             await db.update(users).set({ role, updatedAt: new Date() }).where(eq(users.id, id));
           }
@@ -76,6 +90,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       session.user.id = id ?? "";
       session.user.role = role;
       return session;
+    },
+  },
+  events: {
+    async createUser({ user }) {
+      await syncAdminRole(user.id, user.email);
     },
   },
 });
