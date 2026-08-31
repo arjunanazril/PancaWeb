@@ -69,9 +69,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
     async session({ session, token, user }) {
-      const id = user?.id ?? token.sub;
-      const email = session.user.email;
-      let role: UserRole = token.role === "ADMIN" ? "ADMIN" : "USER";
+      const id = user?.id ?? token?.sub;
+      const email = session.user?.email ?? user?.email;
+      let role: UserRole = token?.role === "ADMIN" ? "ADMIN" : "USER";
 
       if (isAdminEmail(email)) {
         role = "ADMIN";
@@ -87,8 +87,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       }
 
-      session.user.id = id ?? "";
-      session.user.role = role;
+      session.user = {
+        ...session.user,
+        id: id ?? "",
+        role,
+      };
       return session;
     },
   },
