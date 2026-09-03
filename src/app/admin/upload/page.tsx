@@ -25,9 +25,9 @@ export default async function AdminUploadPage({ searchParams }: AdminUploadPageP
             <span className="grid place-items-center">
               <span className="grid size-16 place-items-center rounded-3xl bg-navy text-gold shadow-xl transition group-hover:scale-105"><ImagePlus className="size-7" /></span>
               <span className="mt-5 text-xl font-black tracking-tight text-navy">Tambahkan artefak visual</span>
-              <span className="mt-2 max-w-xs font-normal leading-6">Unggah JPG, PNG, atau WebP sebagai dokumentasi penerapan nilai Pancasila.</span>
+              <span className="mt-2 max-w-xs font-normal leading-6">Unggah JPG, PNG, WebP, atau HEIC sebagai dokumentasi penerapan nilai Pancasila.</span>
             </span>
-            <input name="image" type="file" required accept="image/jpeg,image/png,image/webp" className="mt-6 w-full rounded-2xl border border-border-soft bg-white/80 p-3" />
+            <input name="image" type="file" required accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.HEIC,.heif,.HEIF" className="mt-6 w-full rounded-2xl border border-border-soft bg-white/80 p-3" />
           </label>
           <div className="grid gap-5 rounded-[2rem] bg-white/50 p-5 dark:bg-white/5">
             <div>

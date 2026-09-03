@@ -27,6 +27,14 @@ function getBlobToken() {
   return token;
 }
 
+function getImageExtension(file: File) {
+  const extension = file.name.split(".").pop()?.toLowerCase();
+  if (extension) return extension;
+  if (file.type === "image/heic") return "heic";
+  if (file.type === "image/heif") return "heif";
+  return file.type.split("/")[1] ?? "webp";
+}
+
 export async function createGalleryPost(formData: FormData) {
   const session = await requireAdmin();
   const image = formData.get("image");
@@ -54,7 +62,7 @@ export async function createGalleryPost(formData: FormData) {
     const database = assertDb();
     const id = randomUUID();
     const slug = `${slugify(parsed.data.title)}-${id.slice(0, 8)}`;
-    const extension = image.type.split("/")[1] ?? "webp";
+    const extension = getImageExtension(image);
     const blob = await put(`gallery/${slug}.${extension}`, image, {
       access: "public",
       addRandomSuffix: false,

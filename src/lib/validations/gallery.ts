@@ -19,11 +19,14 @@ export const galleryUpdateSchema = galleryBaseSchema.extend({
 });
 
 export function validateImage(file: File) {
-  const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+  const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/heic", "image/heif"];
+  const allowedExtensions = [".jpg", ".jpeg", ".png", ".webp", ".heic", ".heif"];
   const maxSize = 5 * 1024 * 1024;
+  const lowerName = file.name.toLowerCase();
+  const hasAllowedExtension = allowedExtensions.some((extension) => lowerName.endsWith(extension));
 
-  if (!allowedTypes.includes(file.type)) {
-    return "Format gambar harus JPEG, PNG, atau WebP.";
+  if (!allowedTypes.includes(file.type) && !hasAllowedExtension) {
+    return "Format gambar harus JPEG, PNG, WebP, atau HEIC.";
   }
 
   if (file.size > maxSize) {
