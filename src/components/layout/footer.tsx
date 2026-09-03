@@ -2,10 +2,12 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border-soft bg-navy text-white">
-      <div className="container-shell grid gap-8 py-10 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
+    <footer className="relative overflow-hidden border-t border-white/10 bg-navy text-white">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_0%,rgba(243,200,93,0.18),transparent_28rem),radial-gradient(circle_at_85%_20%,rgba(184,16,45,0.22),transparent_24rem)]" aria-hidden />
+      <div className="container-shell relative grid gap-8 py-12 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
         <div>
-          <p className="text-lg font-bold">PancaRuang</p>
+          <p className="text-xl font-black tracking-tight">PancaRuang</p>
+          <p className="mt-1 text-xs font-bold uppercase tracking-[0.24em] text-gold">Digital Museum</p>
           <p className="mt-3 max-w-md text-sm leading-6 text-white/75">
             Pancasila dalam kehidupan, bukan sekadar hafalan. Galeri edukasi untuk melihat nilai bangsa dalam keseharian.
           </p>

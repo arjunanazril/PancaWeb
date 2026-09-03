@@ -7,14 +7,14 @@ export async function ScrollShowcase() {
   const [post] = await getRecentGalleryPosts(1);
 
   return (
-    <section className="bg-white">
+    <section className="bg-white/70 dark:bg-transparent">
       <div className="container-shell">
         <ContainerScroll
           titleComponent={
             <div>
-              <p className="text-sm font-bold uppercase tracking-[0.22em] text-primary">Ruang Dokumentasi</p>
-              <h2 className="mt-4 text-4xl font-black tracking-tight text-navy md:text-6xl">
-                Lihat nilai Pancasila dari kejadian yang dekat.
+              <p className="museum-kicker">Ruang Dokumentasi</p>
+              <h2 className="museum-heading mx-auto mt-4 max-w-4xl text-4xl md:text-6xl">
+                Lihat artefak sosial dari kejadian yang dekat.
               </h2>
               <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-navy/68 md:text-lg">
                 Satu foto dapat menyimpan cerita tentang toleransi, gotong royong, musyawarah, dan kepedulian sosial.

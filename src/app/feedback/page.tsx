@@ -15,14 +15,14 @@ export default async function FeedbackPage({ searchParams }: FeedbackPageProps) 
   const params = await searchParams;
 
   return (
-    <section className="bg-surface-soft py-16">
+    <section className="museum-grid py-16">
       <div className="container-shell grid gap-8 md:grid-cols-[0.8fr_1.2fr]">
         <div>
-          <p className="text-sm font-bold uppercase tracking-[0.22em] text-primary">Feedback</p>
-          <h1 className="mt-4 text-4xl font-black tracking-tight text-navy">Berikan Masukan</h1>
+          <p className="museum-kicker">Feedback</p>
+          <h1 className="museum-heading mt-4 text-4xl">Berikan Masukan</h1>
           <p className="mt-5 leading-7 text-navy/70">Masukanmu membantu PancaRuang menjaga konten tetap jelas, desain nyaman, dan pengalaman belajar lebih baik.</p>
         </div>
-        <div className="rounded-[2rem] border border-border-soft bg-white p-6 shadow-sm md:p-8">
+        <div className="museum-card rounded-[2rem] p-6 md:p-8">
           <StatusMessage status={typeof params.status === "string" ? params.status : undefined} message={typeof params.message === "string" ? params.message : undefined} />
           {!session?.user ? (
             <div className="mt-4 rounded-3xl bg-surface-soft p-6 text-center">

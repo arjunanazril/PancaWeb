@@ -14,19 +14,19 @@ const links = [
 
 export async function Navbar() {
   const session = await auth();
-  const isAdmin = session?.user.role === "ADMIN";
+  const isAdmin = session?.user?.role === "ADMIN";
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border-soft/80 bg-white/92 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-border-soft/70 bg-background/78 backdrop-blur-xl">
       <div className="container-shell flex min-h-16 items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-3 font-bold text-navy" aria-label="PancaRuang beranda">
-          <span className="grid size-9 place-items-center rounded-full bg-primary text-white">P</span>
-          <span>PancaRuang</span>
+        <Link href="/" className="group flex items-center gap-3 font-bold text-navy" aria-label="PancaRuang beranda">
+          <span className="grid size-10 place-items-center rounded-2xl bg-navy text-sm text-gold shadow-lg transition group-hover:rotate-3">PR</span>
+          <span className="leading-tight"><span className="block">PancaRuang</span><span className="block text-[10px] uppercase tracking-[0.28em] text-primary">Digital Museum</span></span>
         </Link>
 
         <nav aria-label="Navigasi utama" className="hidden items-center gap-6 text-sm font-medium text-navy/75 md:flex">
           {links.map((link) => (
-            <Link key={link.href} href={link.href} className="hover:text-primary">
+            <Link key={link.href} href={link.href} className="rounded-full px-3 py-2 hover:bg-white/60 hover:text-primary dark:hover:bg-white/10">
               {link.label}
             </Link>
           ))}
@@ -35,11 +35,11 @@ export async function Navbar() {
         <div className="flex items-center gap-2">
           {session?.user ? (
             <details className="relative">
-              <summary className="flex cursor-pointer list-none items-center gap-2 rounded-full border border-border-soft bg-white px-3 py-2 text-sm font-semibold text-navy hover:bg-surface-soft">
+              <summary className="flex cursor-pointer list-none items-center gap-2 rounded-full border border-border-soft bg-white/75 px-3 py-2 text-sm font-semibold text-navy shadow-sm hover:bg-white dark:bg-white/10 dark:hover:bg-white/15">
                 {isAdmin ? <Shield className="size-4 text-primary" /> : <UserCircle className="size-4" />}
                 <span className="hidden max-w-32 truncate sm:inline">{session.user.name ?? session.user.email}</span>
               </summary>
-              <div className="absolute right-0 mt-2 w-56 rounded-2xl border border-border-soft bg-white p-2 text-sm shadow-xl">
+              <div className="absolute right-0 mt-2 w-60 rounded-3xl border border-border-soft bg-white/95 p-2 text-sm shadow-2xl backdrop-blur-xl dark:bg-navy/95">
                 {isAdmin ? (
                   <>
                     <Link className="block rounded-xl px-3 py-2 hover:bg-surface-soft" href="/admin">Dashboard Admin</Link>
@@ -65,7 +65,7 @@ export async function Navbar() {
           ) : (
             <div className="flex items-center gap-2">
               <div className="hidden w-36 sm:block"><ThemeToggle /></div>
-              <ButtonLink href="/auth" className="min-h-10 px-4">Login</ButtonLink>
+              <ButtonLink href="/auth" className="min-h-10 px-4 shadow-lg shadow-primary/15">Login</ButtonLink>
             </div>
           )}
         </div>

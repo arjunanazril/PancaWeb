@@ -31,18 +31,18 @@ export default async function AdminGalleryPage({ searchParams }: AdminGalleryPag
     <AdminShell title="Kelola Galeri">
       <div className="space-y-5">
         <StatusMessage status={typeof params.status === "string" ? params.status : undefined} message={typeof params.message === "string" ? params.message : undefined} />
-        <form className="grid gap-3 rounded-3xl border border-border-soft bg-white p-4 md:grid-cols-[1fr_180px_auto]" action="/admin/gallery">
+        <form className="museum-card grid gap-3 rounded-3xl p-4 md:grid-cols-[1fr_180px_auto]" action="/admin/gallery">
           <label className="sr-only" htmlFor="admin-q">Cari dokumentasi</label>
           <input id="admin-q" name="q" defaultValue={q} placeholder="Cari dokumentasi..." className="min-h-11 rounded-full border border-border-soft px-4 text-sm" />
           <select name="sila" defaultValue={sila ?? ""} className="min-h-11 rounded-full border border-border-soft px-4 text-sm" aria-label="Filter sila">
             <option value="">Semua sila</option>
             {[1, 2, 3, 4, 5].map((value) => <option key={value} value={value}>Sila {value}</option>)}
           </select>
-          <button className="rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white" type="submit">Filter</button>
+          <button className="rounded-full bg-primary px-5 py-2 text-sm font-bold text-white" type="submit">Filter</button>
         </form>
-        {posts.length === 0 ? <div className="rounded-3xl border border-dashed border-border-soft bg-white p-8 text-center text-navy/70">Belum ada dokumentasi.</div> : null}
+        {posts.length === 0 ? <div className="museum-card rounded-3xl border-dashed p-8 text-center text-navy/70">Belum ada dokumentasi.</div> : null}
         {posts.map((post) => (
-          <article key={post.id} className="overflow-hidden rounded-[2rem] border border-border-soft bg-white shadow-sm">
+          <article key={post.id} className="museum-card overflow-hidden rounded-[2rem]">
             <div className="grid gap-0 lg:grid-cols-[280px_1fr]">
               <div className="relative min-h-64 bg-surface-soft"><Image src={post.imageUrl} alt={post.title} fill sizes="280px" className="object-cover" /></div>
               <div className="grid gap-5 p-5">
@@ -51,14 +51,14 @@ export default async function AdminGalleryPage({ searchParams }: AdminGalleryPag
                   <h2 className="mt-3 text-2xl font-black text-navy">{post.title}</h2>
                   <p className="mt-2 text-sm text-navy/60">{formatDate(post.createdAt)}</p>
                 </div>
-                <details className="rounded-2xl bg-surface-soft p-4">
+                <details className="rounded-2xl border border-border-soft bg-surface-soft/70 p-4">
                   <summary className="cursor-pointer font-bold text-navy">Edit dokumentasi</summary>
                   <form action={updateGalleryPost} className="mt-4 grid gap-4">
                     <input type="hidden" name="id" value={post.id} />
                     <input name="title" defaultValue={post.title} required className="min-h-11 rounded-2xl border border-border-soft px-4" aria-label="Judul" />
                     <textarea name="description" defaultValue={post.description} required rows={4} className="rounded-2xl border border-border-soft p-4" aria-label="Deskripsi" />
                     <div className="flex flex-wrap gap-2">
-                      {[1, 2, 3, 4, 5].map((value) => <label key={value} className="rounded-full bg-white px-3 py-2 text-sm"><input type="checkbox" name="sila" value={value} defaultChecked={post.sila.includes(value)} className="mr-2" />Sila {value}</label>)}
+                      {[1, 2, 3, 4, 5].map((value) => <label key={value} className="rounded-full border border-border-soft bg-white/70 px-3 py-2 text-sm"><input type="checkbox" name="sila" value={value} defaultChecked={post.sila.includes(value)} className="mr-2" />Sila {value}</label>)}
                     </div>
                     <div className="grid gap-3 sm:grid-cols-2">
                       <input name="location" defaultValue={post.location ?? ""} className="min-h-11 rounded-2xl border border-border-soft px-4" aria-label="Lokasi" />

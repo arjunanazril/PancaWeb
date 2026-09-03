@@ -7,8 +7,8 @@ type ButtonProps = ComponentPropsWithoutRef<"button"> & {
 };
 
 const variants = {
-  primary: "bg-primary text-white shadow-sm hover:bg-primary/90",
-  secondary: "border border-border-soft bg-white text-navy hover:bg-surface-soft",
+  primary: "bg-primary text-white shadow-sm shadow-primary/20 hover:bg-primary/90",
+  secondary: "border border-border-soft bg-white/80 text-navy shadow-sm hover:bg-white dark:bg-white/10 dark:hover:bg-white/15",
   ghost: "text-navy hover:bg-surface-soft",
   danger: "bg-red-700 text-white hover:bg-red-800",
 };

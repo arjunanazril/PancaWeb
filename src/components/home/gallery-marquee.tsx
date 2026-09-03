@@ -7,16 +7,16 @@ export async function GalleryMarquee() {
   const doubled = [...posts, ...posts];
 
   return (
-    <section className="overflow-hidden bg-surface-soft py-20">
+    <section className="overflow-hidden bg-surface-soft/70 py-20">
       <div className="container-shell mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
         <div>
-          <p className="text-sm font-bold uppercase tracking-[0.22em] text-primary">Galeri Hidup</p>
-          <h2 className="mt-3 max-w-2xl text-3xl font-black tracking-tight text-navy md:text-5xl">Dokumentasi nilai Pancasila dalam keseharian.</h2>
+          <p className="museum-kicker">Galeri Hidup</p>
+          <h2 className="museum-heading mt-4 max-w-2xl text-3xl md:text-5xl">Dokumentasi nilai Pancasila dalam keseharian.</h2>
         </div>
         <ButtonLink href="/gallery" variant="secondary">Buka Semua Galeri</ButtonLink>
       </div>
       {posts.length === 0 ? (
-        <div className="container-shell rounded-3xl border border-dashed border-border-soft bg-white p-8 text-center text-navy/70">Belum ada dokumentasi.</div>
+        <div className="container-shell museum-card rounded-3xl border-dashed p-8 text-center text-navy/70">Belum ada dokumentasi.</div>
       ) : (
         <div className="marquee-wrap space-y-6">
           <div className="marquee-track flex w-max gap-6 px-4">

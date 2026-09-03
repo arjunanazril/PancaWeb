@@ -1,27 +1,27 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #112a4f;
-  --surface-soft: #f7f7f5;
-  --primary: #c8102e;
-  --gold: #ffd700;
-  --gold-dark: #d6a800;
-  --green: #006d4e;
-  --navy: #112a4f;
-  --border-soft: #e8e4dc;
+  --background: #f8f4ea;
+  --foreground: #10213a;
+  --surface-soft: #efe8d9;
+  --primary: #b8102d;
+  --gold: #f3c85d;
+  --gold-dark: #b78020;
+  --green: #08745b;
+  --navy: #10213a;
+  --border-soft: #dfd2bd;
 }
 
 .dark {
-  --background: #07111f;
+  --background: #050b16;
   --foreground: #eef3f8;
-  --surface-soft: #0d1a2c;
-  --primary: #e34b5d;
-  --gold: #f1c95a;
+  --surface-soft: #0b1628;
+  --primary: #ff5368;
+  --gold: #f4c96a;
   --gold-dark: #e0b238;
-  --green: #2fa780;
-  --navy: #0a1730;
-  --border-soft: #22344f;
+  --green: #42c49a;
+  --navy: #081326;
+  --border-soft: #20314d;
 }
 
 @theme inline {
@@ -39,7 +39,10 @@
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(circle at 12% -8%, color-mix(in srgb, var(--gold) 24%, transparent), transparent 28rem),
+    radial-gradient(circle at 86% 4%, color-mix(in srgb, var(--primary) 13%, transparent), transparent 24rem),
+    linear-gradient(180deg, var(--background), color-mix(in srgb, var(--surface-soft) 72%, white));
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
@@ -161,6 +164,53 @@ html {
 .container-shell {
   width: min(1120px, calc(100% - 2rem));
   margin-inline: auto;
+}
+
+.museum-grid {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--navy) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--navy) 7%, transparent) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.museum-card {
+  border: 1px solid color-mix(in srgb, var(--border-soft) 82%, transparent);
+  background: color-mix(in srgb, white 76%, var(--background));
+  box-shadow: 0 24px 80px rgba(16, 33, 58, 0.08);
+}
+
+.dark .museum-card {
+  background: rgba(12, 25, 45, 0.76);
+  box-shadow: 0 24px 90px rgba(0, 0, 0, 0.34);
+}
+
+.museum-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--gold-dark) 32%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--gold) 18%, transparent);
+  padding: 0.45rem 0.8rem;
+  color: var(--navy);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.dark .museum-kicker {
+  color: var(--foreground);
+}
+
+.museum-heading {
+  color: var(--navy);
+  font-weight: 950;
+  letter-spacing: -0.055em;
+}
+
+.dark .museum-heading {
+  color: var(--foreground);
 }
 
 .marquee-track {

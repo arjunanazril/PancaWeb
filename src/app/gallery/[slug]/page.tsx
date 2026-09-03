@@ -26,8 +26,8 @@ export default async function GalleryDetailPage({ params }: GalleryDetailProps) 
   if (!post) notFound();
 
   return (
-    <section className="bg-surface-soft py-12 md:py-16">
-      <article className="container-shell overflow-hidden rounded-[2rem] border border-border-soft bg-white shadow-xl">
+    <section className="museum-grid py-12 md:py-16">
+      <article className="container-shell museum-card overflow-hidden rounded-[2.25rem]">
         <div className="relative aspect-[16/10] bg-surface-soft md:aspect-[16/7]">
           <Image src={post.imageUrl} alt={post.title} fill priority sizes="100vw" className="object-cover" />
         </div>
@@ -37,7 +37,7 @@ export default async function GalleryDetailPage({ params }: GalleryDetailProps) 
             <h1 className="mt-5 text-3xl font-black tracking-tight text-navy md:text-5xl">{post.title}</h1>
             <p className="mt-5 text-lg leading-8 text-navy/72">{post.description}</p>
           </div>
-          <aside className="rounded-3xl bg-surface-soft p-5 text-sm text-navy/70">
+          <aside className="rounded-3xl border border-border-soft bg-surface-soft/70 p-5 text-sm text-navy/70">
             <p className="font-bold text-navy">Metadata</p>
             <dl className="mt-4 space-y-4">
               <div><dt className="font-semibold">Tanggal</dt><dd>{formatDate(post.documentedAt ?? post.createdAt)}</dd></div>

@@ -15,11 +15,11 @@ export default async function AdminPage() {
   return (
     <AdminShell title="Dashboard Admin">
       <div className="grid gap-4 md:grid-cols-3">
-        <div className="rounded-3xl border border-border-soft bg-white p-6"><p className="text-sm text-navy/60">Total Dokumentasi</p><p className="mt-3 text-4xl font-black text-primary">{posts.length}</p></div>
-        <div className="rounded-3xl border border-border-soft bg-white p-6"><p className="text-sm text-navy/60">Total Feedback</p><p className="mt-3 text-4xl font-black text-green">{feedback.length}</p></div>
-        <div className="rounded-3xl border border-border-soft bg-navy p-6 text-white"><p className="text-sm text-white/60">Aksi Cepat</p><ButtonLink href="/admin/upload" className="mt-4 bg-white text-navy hover:bg-gold">Upload Dokumentasi</ButtonLink></div>
+        <div className="museum-card rounded-3xl p-6"><p className="text-sm text-navy/60">Total Dokumentasi</p><p className="mt-3 text-4xl font-black text-primary">{posts.length}</p></div>
+        <div className="museum-card rounded-3xl p-6"><p className="text-sm text-navy/60">Total Feedback</p><p className="mt-3 text-4xl font-black text-green">{feedback.length}</p></div>
+        <div className="rounded-3xl border border-white/10 bg-navy p-6 text-white shadow-2xl"><p className="text-sm text-white/60">Aksi Cepat</p><ButtonLink href="/admin/upload" className="mt-4 bg-white text-navy hover:bg-gold">Upload Dokumentasi</ButtonLink></div>
       </div>
-      <section className="mt-6 rounded-3xl border border-border-soft bg-white p-6">
+      <section className="museum-card mt-6 rounded-3xl p-6">
         <h2 className="text-xl font-black text-navy">Recent Uploads</h2>
         {recent.length === 0 ? <p className="mt-4 text-navy/70">Belum ada dokumentasi.</p> : (
           <div className="mt-4 grid gap-3">

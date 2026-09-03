@@ -23,7 +23,7 @@ export default function ScrollLockedVideoHero({
   title = "LIMA SILA",
   scrollHint = "GULIR",
   tagline = "Sebagai arah hidup bersama.",
-  scrubDistance = 2600,
+  scrubDistance = 2200,
   className,
   style,
 }: ScrollLockedVideoHeroProps) {
@@ -33,6 +33,7 @@ export default function ScrollLockedVideoHero({
   const hintRef = useRef<HTMLDivElement>(null);
   const taglineRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
+  const archiveRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -47,10 +48,6 @@ export default function ScrollLockedVideoHero({
     let rafId = 0;
     let targetProgress = 0;
     let currentProgress = 0;
-    let hasStartedScrolling = false;
-    let locked = false;
-    let lockedScrollY = 0;
-    let touchStartY = 0;
     let isSeeking = false;
     let pendingTime: number | null = null;
 
@@ -79,75 +76,11 @@ export default function ScrollLockedVideoHero({
       activeVideo.currentTime = time;
     }
 
-    function engageLock() {
-      if (locked) return;
-      locked = true;
-      lockedScrollY = window.scrollY;
-      const bodyStyle = document.body.style;
-      bodyStyle.position = "fixed";
-      bodyStyle.top = `-${lockedScrollY}px`;
-      bodyStyle.left = "0";
-      bodyStyle.right = "0";
-      bodyStyle.width = "100%";
-    }
-
-    function releaseLock(scrollToY = lockedScrollY) {
-      if (!locked) return;
-      locked = false;
-      const bodyStyle = document.body.style;
-      bodyStyle.position = "";
-      bodyStyle.top = "";
-      bodyStyle.left = "";
-      bodyStyle.right = "";
-      bodyStyle.width = "";
-      window.scrollTo(0, scrollToY);
-    }
-
-    function sectionIsAtTop() {
+    function updateProgress() {
       const rect = activeSection.getBoundingClientRect();
-      return rect.top <= 1 && rect.bottom > window.innerHeight * 0.4;
+      const scrollable = Math.max(1, activeSection.offsetHeight - window.innerHeight);
+      targetProgress = clamp(-rect.top / scrollable, 0, 1);
     }
-
-    function addDelta(deltaY: number) {
-      if (!locked && sectionIsAtTop()) engageLock();
-      if (!locked) return;
-
-      if (targetProgress >= 0.995 && deltaY > 0) {
-        targetProgress = 1;
-        releaseLock(lockedScrollY + activeSection.offsetHeight - window.innerHeight + 1);
-        return;
-      }
-
-      if (targetProgress <= 0.005 && deltaY < 0) {
-        targetProgress = 0;
-        releaseLock(Math.max(0, lockedScrollY - 1));
-        return;
-      }
-
-      targetProgress = clamp(targetProgress + deltaY / scrubDistance, 0, 1);
-      if (targetProgress > 0.001) hasStartedScrolling = true;
-    }
-
-    const onWheel = (event: WheelEvent) => {
-      if (locked || sectionIsAtTop()) {
-        addDelta(event.deltaY);
-        event.preventDefault();
-      }
-    };
-
-    const onTouchStart = (event: TouchEvent) => {
-      touchStartY = event.touches[0]?.clientY ?? 0;
-    };
-
-    const onTouchMove = (event: TouchEvent) => {
-      const y = event.touches[0]?.clientY ?? touchStartY;
-      const deltaY = touchStartY - y;
-      touchStartY = y;
-      if (locked || sectionIsAtTop()) {
-        addDelta(deltaY);
-        event.preventDefault();
-      }
-    };
 
     function frame() {
       currentProgress += (targetProgress - currentProgress) * 0.16;
@@ -165,7 +98,7 @@ export default function ScrollLockedVideoHero({
         titleRef.current.style.filter = `blur(${(1 - opacity) * 8}px)`;
       }
 
-      if (hintRef.current) hintRef.current.style.opacity = hasStartedScrolling ? "0" : "1";
+      if (hintRef.current) hintRef.current.style.opacity = currentProgress > 0.08 ? "0" : "1";
 
       if (taglineRef.current) {
         const opacity = clamp((currentProgress - 0.72) / 0.24, 0, 1);
@@ -176,6 +109,12 @@ export default function ScrollLockedVideoHero({
 
       if (progressBarRef.current) progressBarRef.current.style.transform = `scaleX(${currentProgress})`;
 
+      if (archiveRef.current) {
+        const opacity = clamp((currentProgress - 0.18) / 0.42, 0, 1);
+        archiveRef.current.style.opacity = String(opacity);
+        archiveRef.current.style.transform = `translateY(${(1 - opacity) * 32}px)`;
+      }
+
       rafId = requestAnimationFrame(frame);
     }
 
@@ -183,21 +122,18 @@ export default function ScrollLockedVideoHero({
     activeVideo.addEventListener("seeked", onSeeked);
 
     if (!reduceMotion) {
-      engageLock();
-      window.addEventListener("wheel", onWheel, { passive: false });
-      window.addEventListener("touchstart", onTouchStart, { passive: true });
-      window.addEventListener("touchmove", onTouchMove, { passive: false });
+      updateProgress();
+      window.addEventListener("scroll", updateProgress, { passive: true });
+      window.addEventListener("resize", updateProgress, { passive: true });
       rafId = requestAnimationFrame(frame);
     }
 
     return () => {
       activeVideo.removeEventListener("loadeddata", onLoadedData);
       activeVideo.removeEventListener("seeked", onSeeked);
-      window.removeEventListener("wheel", onWheel);
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
       cancelAnimationFrame(rafId);
-      releaseLock();
     };
   }, [scrubDistance]);
 
@@ -207,14 +143,14 @@ export default function ScrollLockedVideoHero({
       className={className}
       style={{
         position: "relative",
-        height: "100dvh",
+        height: `calc(100svh + ${scrubDistance}px)`,
         width: "100%",
-        overflow: "hidden",
-        background: "#112A4F",
+        background: "#07111f",
         ...style,
       }}
       aria-label="Pembuka lima sila Pancasila"
     >
+      <div className="sticky top-0 h-svh overflow-hidden">
       <video
         ref={videoRef}
         src={videoSrc}
@@ -235,7 +171,7 @@ export default function ScrollLockedVideoHero({
       />
 
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,42,79,0.68),rgba(17,42,79,0.24)_38%,rgba(200,16,46,0.36)_100%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(255,215,0,0.22),transparent_34%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(255,215,0,0.22),transparent_34%),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(0deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:auto,72px_72px,72px_72px]" />
 
       <div ref={titleRef} className="pointer-events-none absolute inset-0 flex items-center justify-center px-6 text-center">
         <div>
@@ -250,6 +186,17 @@ export default function ScrollLockedVideoHero({
         </div>
       ) : null}
 
+      <div ref={archiveRef} className="pointer-events-none absolute inset-x-4 bottom-24 mx-auto max-w-4xl opacity-0 md:bottom-20">
+        <div className="grid gap-3 rounded-[2rem] border border-white/15 bg-white/10 p-4 text-white shadow-2xl backdrop-blur-xl md:grid-cols-3 md:p-5">
+          {["Nilai", "Ruang", "Aksi"].map((item, index) => (
+            <div key={item} className="rounded-3xl border border-white/10 bg-navy/35 p-4">
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-gold">0{index + 1}</p>
+              <p className="mt-2 text-lg font-black">{item}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div ref={hintRef} className="pointer-events-none absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-xs font-bold uppercase tracking-[0.3em] text-white/75 transition-opacity">
         <span>{scrollHint}</span>
         <span className="h-8 w-px animate-pulse bg-gold" />
@@ -257,6 +204,7 @@ export default function ScrollLockedVideoHero({
 
       <div className="absolute inset-x-0 bottom-0 h-1 bg-white/15">
         <div ref={progressBarRef} className="h-full w-full origin-left scale-x-0 bg-gold" />
+      </div>
       </div>
     </section>
   );

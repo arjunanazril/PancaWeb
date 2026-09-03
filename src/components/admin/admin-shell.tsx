@@ -10,10 +10,10 @@ const adminLinks = [
 
 export function AdminShell({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="bg-surface-soft py-8 md:py-12">
+    <section className="museum-grid min-h-[70vh] py-8 md:py-12">
       <div className="container-shell grid gap-6 md:grid-cols-[230px_1fr]">
-        <aside className="rounded-[1.5rem] border border-border-soft bg-white p-4 shadow-sm md:sticky md:top-24 md:h-fit">
-          <p className="px-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">Admin</p>
+        <aside className="museum-card rounded-[1.75rem] p-4 md:sticky md:top-24 md:h-fit">
+          <p className="px-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">Museum Console</p>
           <nav className="mt-4 grid gap-1" aria-label="Navigasi admin">
             {adminLinks.map((link) => (
               <Link key={link.href} href={link.href} className="rounded-2xl px-3 py-2 text-sm font-semibold text-navy/75 hover:bg-surface-soft hover:text-primary">
@@ -23,7 +23,7 @@ export function AdminShell({ title, children }: { title: string; children: React
           </nav>
         </aside>
         <div>
-          <h1 className="text-3xl font-black tracking-tight text-navy md:text-5xl">{title}</h1>
+          <h1 className="museum-heading text-3xl md:text-5xl">{title}</h1>
           <div className="mt-6">{children}</div>
         </div>
       </div>
