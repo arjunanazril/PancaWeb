@@ -5,6 +5,7 @@ import { put } from "@vercel/blob";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import sharp from "sharp";
 import { assertDb } from "@/lib/db";
 import { galleryPosts, galleryPostSila } from "@/lib/db/schema";
 import { requireAdmin } from "@/lib/auth/guards";
@@ -35,6 +36,21 @@ function getImageExtension(file: File) {
   return file.type.split("/")[1] ?? "webp";
 }
 
+function isHeicImage(file: File) {
+  const lowerName = file.name.toLowerCase();
+  return file.type === "image/heic" || file.type === "image/heif" || lowerName.endsWith(".heic") || lowerName.endsWith(".heif");
+}
+
+async function prepareImageForUpload(file: File) {
+  if (!isHeicImage(file)) {
+    return { body: file, extension: getImageExtension(file) };
+  }
+
+  const input = Buffer.from(await file.arrayBuffer());
+  const output = await sharp(input).rotate().jpeg({ quality: 88 }).toBuffer();
+  return { body: output, extension: "jpg" };
+}
+
 export async function createGalleryPost(formData: FormData) {
   const session = await requireAdmin();
   const image = formData.get("image");
@@ -62,10 +78,11 @@ export async function createGalleryPost(formData: FormData) {
     const database = assertDb();
     const id = randomUUID();
     const slug = `${slugify(parsed.data.title)}-${id.slice(0, 8)}`;
-    const extension = getImageExtension(image);
-    const blob = await put(`gallery/${slug}.${extension}`, image, {
+    const uploadImage = await prepareImageForUpload(image);
+    const blob = await put(`gallery/${slug}.${uploadImage.extension}`, uploadImage.body, {
       access: "public",
       addRandomSuffix: false,
+      contentType: uploadImage.extension === "jpg" ? "image/jpeg" : image.type,
       token: getBlobToken(),
     });
 
