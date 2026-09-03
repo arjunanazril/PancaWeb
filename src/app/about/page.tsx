@@ -15,7 +15,7 @@ export default function AboutPage() {
         <div className="museum-card mb-10 overflow-hidden rounded-[2.5rem] p-4 md:p-5">
           <div className="relative min-h-[320px] overflow-hidden rounded-[2rem] bg-surface-soft md:min-h-[520px]">
             <Image
-              src="/images/about/IMG_8572.jpeg"
+              src="/images/about/IMG_8572.jpg"
               alt="Foto dokumentasi PancaRuang"
               fill
               priority
