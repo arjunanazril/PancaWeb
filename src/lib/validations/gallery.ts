@@ -21,7 +21,7 @@ export const galleryUpdateSchema = galleryBaseSchema.extend({
 export function validateImage(file: File) {
   const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/heic", "image/heif"];
   const allowedExtensions = [".jpg", ".jpeg", ".png", ".webp", ".heic", ".heif"];
-  const maxSize = 15 * 1024 * 1024;
+  const maxSize = 30 * 1024 * 1024;
   const lowerName = file.name.toLowerCase();
   const hasAllowedExtension = allowedExtensions.some((extension) => lowerName.endsWith(extension));
 
@@ -30,7 +30,7 @@ export function validateImage(file: File) {
   }
 
   if (file.size > maxSize) {
-    return "Ukuran gambar maksimal 15 MB.";
+    return "Ukuran gambar maksimal 30 MB.";
   }
 
   if (file.size === 0) {
