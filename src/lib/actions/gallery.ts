@@ -5,7 +5,7 @@ import { put } from "@vercel/blob";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import sharp from "sharp";
+import heicConvert from "heic-convert";
 import { assertDb } from "@/lib/db";
 import { galleryPosts, galleryPostSila } from "@/lib/db/schema";
 import { requireAdmin } from "@/lib/auth/guards";
@@ -47,7 +47,7 @@ async function prepareImageForUpload(file: File) {
   }
 
   const input = Buffer.from(await file.arrayBuffer());
-  const output = await sharp(input).rotate().jpeg({ quality: 88 }).toBuffer();
+  const output = await heicConvert({ buffer: input, format: "JPEG", quality: 0.88 });
   return { body: output, extension: "jpg" };
 }
 
