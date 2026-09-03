@@ -178,7 +178,7 @@ export function TeamIdentificationSection() {
         <div className="team-floor" aria-hidden />
         <div className="team-image-wrap">
           <Image
-            src="/images/about/IMG_8572.jpeg"
+            src="/images/team/IMG_8572.png"
             alt="Foto kelompok tim PancaRuang XII TKJ 1"
             fill
             sizes="(min-width: 1120px) 900px, 100vw"
