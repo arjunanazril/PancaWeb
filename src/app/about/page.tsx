@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import { TeamIdentificationSection } from "@/components/about/team-identification-section";
 import { MacbookPro } from "@/components/ui/macbook-pro";
 
 export const metadata: Metadata = {
@@ -9,7 +11,28 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <section className="museum-grid py-20">
-      <div className="container-shell grid gap-10 md:grid-cols-[0.88fr_1.12fr] md:items-center">
+      <div className="container-shell">
+        <div className="museum-card mb-10 overflow-hidden rounded-[2.5rem] p-4 md:p-5">
+          <div className="relative min-h-[320px] overflow-hidden rounded-[2rem] bg-surface-soft md:min-h-[520px]">
+            <Image
+              src="/images/about/IMG_8572.jpeg"
+              alt="Foto dokumentasi PancaRuang"
+              fill
+              priority
+              sizes="(min-width: 1120px) 1120px, 100vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-navy/78 via-navy/12 to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6 text-white md:bottom-8 md:left-8">
+              <p className="text-xs font-bold uppercase tracking-[0.24em] text-gold">Tentang PancaRuang</p>
+              <h1 className="mt-3 max-w-3xl text-4xl font-black leading-tight tracking-[-0.05em] md:text-6xl">
+                Museum digital nilai bangsa.
+              </h1>
+            </div>
+          </div>
+        </div>
+        <TeamIdentificationSection />
+        <div className="grid gap-10 md:grid-cols-[0.88fr_1.12fr] md:items-center">
         <div>
           <p className="museum-kicker">Tentang</p>
           <h1 className="museum-heading mt-4 text-4xl md:text-6xl">PancaRuang adalah museum digital nilai bangsa.</h1>
@@ -37,6 +60,7 @@ export default function AboutPage() {
             <p>Dokumentasi kegiatan sehari-hari menjadi bagian penting agar pembelajaran terasa dekat, nyata, dan bermakna.</p>
             <p>Setiap halaman dibuat untuk membantu pengunjung belajar, memahami, melihat penerapan, lalu ikut memberi masukan.</p>
           </div>
+        </div>
         </div>
       </div>
     </section>
