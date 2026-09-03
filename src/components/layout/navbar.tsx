@@ -17,7 +17,7 @@ export async function Navbar() {
   const isAdmin = session?.user?.role === "ADMIN";
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border-soft/70 bg-background/78 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-border-soft/70 bg-[#f8f4ea]/90 backdrop-blur-xl dark:bg-navy/88">
       <div className="container-shell flex min-h-16 items-center justify-between gap-4">
         <Link href="/" className="group flex items-center gap-3 font-bold text-navy" aria-label="PancaRuang beranda">
           <span className="grid size-10 place-items-center rounded-2xl bg-navy text-sm text-gold shadow-lg transition group-hover:rotate-3">PR</span>
@@ -35,22 +35,22 @@ export async function Navbar() {
         <div className="flex items-center gap-2">
           {session?.user ? (
             <details className="relative">
-              <summary className="flex cursor-pointer list-none items-center gap-2 rounded-full border border-border-soft bg-white/75 px-3 py-2 text-sm font-semibold text-navy shadow-sm hover:bg-white dark:bg-white/10 dark:hover:bg-white/15">
+              <summary className="flex cursor-pointer list-none items-center gap-2 rounded-full border border-border-soft bg-white px-3 py-2 text-sm font-bold text-[#10213a] shadow-sm shadow-navy/10 hover:bg-[#fffaf0] dark:bg-white/10 dark:text-white dark:hover:bg-white/15">
                 {isAdmin ? <Shield className="size-4 text-primary" /> : <UserCircle className="size-4" />}
                 <span className="hidden max-w-32 truncate sm:inline">{session.user.name ?? session.user.email}</span>
               </summary>
-              <div className="absolute right-0 mt-2 w-60 rounded-3xl border border-border-soft bg-white/95 p-2 text-sm shadow-2xl backdrop-blur-xl dark:bg-navy/95">
+              <div className="absolute right-0 mt-2 w-60 rounded-3xl border border-border-soft bg-[#fffaf0] p-2 text-sm text-[#10213a] shadow-2xl backdrop-blur-xl dark:bg-navy/95 dark:text-white">
                 {isAdmin ? (
                   <>
-                    <Link className="block rounded-xl px-3 py-2 hover:bg-surface-soft" href="/admin">Dashboard Admin</Link>
-                    <Link className="block rounded-xl px-3 py-2 hover:bg-surface-soft" href="/admin/upload">Upload Dokumentasi</Link>
-                    <Link className="block rounded-xl px-3 py-2 hover:bg-surface-soft" href="/admin/gallery">Kelola Galeri</Link>
-                    <Link className="block rounded-xl px-3 py-2 hover:bg-surface-soft" href="/admin/feedback">Feedback</Link>
+                    <Link className="block rounded-xl px-3 py-2 font-semibold hover:bg-surface-soft" href="/admin">Dashboard Admin</Link>
+                    <Link className="block rounded-xl px-3 py-2 font-semibold hover:bg-surface-soft" href="/admin/upload">Upload Dokumentasi</Link>
+                    <Link className="block rounded-xl px-3 py-2 font-semibold hover:bg-surface-soft" href="/admin/gallery">Kelola Galeri</Link>
+                    <Link className="block rounded-xl px-3 py-2 font-semibold hover:bg-surface-soft" href="/admin/feedback">Feedback</Link>
                   </>
                 ) : (
                   <>
-                    <Link className="block rounded-xl px-3 py-2 hover:bg-surface-soft" href="/feedback">Feedback Saya</Link>
-                    <Link className="block rounded-xl px-3 py-2 hover:bg-surface-soft" href="/gallery">Jelajahi Galeri</Link>
+                    <Link className="block rounded-xl px-3 py-2 font-semibold hover:bg-surface-soft" href="/feedback">Feedback Saya</Link>
+                    <Link className="block rounded-xl px-3 py-2 font-semibold hover:bg-surface-soft" href="/gallery">Jelajahi Galeri</Link>
                   </>
                 )}
                 <div className="my-1 h-px bg-border-soft" />

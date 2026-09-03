@@ -87,6 +87,20 @@ export const feedback = pgTable("feedback", {
   createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
 });
 
+export const siteSettings = pgTable("site_settings", {
+  id: text("id").primaryKey(),
+  heroImageOne: text("hero_image_one").notNull(),
+  heroImageTwo: text("hero_image_two").notNull(),
+  heroImageThree: text("hero_image_three").notNull(),
+  collectionLabel: text("collection_label").notNull(),
+  collectionValue: text("collection_value").notNull(),
+  featureNumber: text("feature_number").notNull(),
+  featureText: text("feature_text").notNull(),
+  curationTitle: text("curation_title").notNull(),
+  curationDescription: text("curation_description").notNull(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).notNull().defaultNow(),
+});
+
 export const usersRelations = relations(users, ({ many }) => ({
   galleryPosts: many(galleryPosts),
   feedback: many(feedback),

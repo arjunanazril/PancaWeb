@@ -1,7 +1,10 @@
 import { ArrowRight, Images, Sparkles } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
+import { getMuseumDisplay } from "@/lib/data/site-settings";
 
-export function Hero() {
+export async function Hero() {
+  const display = await getMuseumDisplay();
+
   return (
     <section className="museum-grid relative overflow-hidden py-20 md:py-28">
       <div className="absolute -left-24 top-20 h-72 w-72 rounded-full bg-primary/15 blur-3xl" aria-hidden />
@@ -29,21 +32,21 @@ export function Hero() {
           <div className="absolute inset-8 rounded-[2.5rem] bg-navy shadow-2xl" aria-hidden />
           <div className="museum-card relative overflow-hidden rounded-[2.5rem] p-4 backdrop-blur-xl">
             <div className="grid h-[390px] grid-cols-5 grid-rows-5 gap-3">
-              <div className="col-span-3 row-span-3 rounded-[2rem] bg-[url('https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=900&q=80')] bg-cover bg-center" />
+              <div className="col-span-3 row-span-3 rounded-[2rem] bg-cover bg-center" style={{ backgroundImage: `url(${display.heroImageOne})` }} />
               <div className="col-span-2 row-span-2 rounded-[2rem] bg-primary p-5 text-white">
-                <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/65">Koleksi</p>
-                <p className="mt-8 text-4xl font-black">Live</p>
+                <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/65">{display.collectionLabel}</p>
+                <p className="mt-8 text-4xl font-black">{display.collectionValue}</p>
               </div>
-              <div className="col-span-2 row-span-3 rounded-[2rem] bg-[url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80')] bg-cover bg-center" />
+              <div className="col-span-2 row-span-3 rounded-[2rem] bg-cover bg-center" style={{ backgroundImage: `url(${display.heroImageTwo})` }} />
               <div className="col-span-2 row-span-2 rounded-[2rem] bg-gold p-5 text-navy">
-                <p className="text-4xl font-black">01</p>
-                <p className="mt-2 text-sm font-semibold">Nilai tidak dipajang, tapi dipraktikkan.</p>
+                <p className="text-4xl font-black">{display.featureNumber}</p>
+                <p className="mt-2 text-sm font-semibold">{display.featureText}</p>
               </div>
-              <div className="col-span-3 row-span-2 rounded-[2rem] bg-[url('https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?auto=format&fit=crop&w=900&q=80')] bg-cover bg-center" />
+              <div className="col-span-3 row-span-2 rounded-[2rem] bg-cover bg-center" style={{ backgroundImage: `url(${display.heroImageThree})` }} />
             </div>
             <div className="absolute inset-x-8 bottom-8 rounded-3xl border border-white/20 bg-navy/80 p-4 text-white backdrop-blur-md">
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-gold">Kurasi Hari Ini</p>
-              <p className="mt-2 text-sm text-white/75">Toleransi, gotong royong, musyawarah, dan keadilan sosial dalam frame yang dekat.</p>
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-gold">{display.curationTitle}</p>
+              <p className="mt-2 text-sm text-white/75">{display.curationDescription}</p>
             </div>
           </div>
         </div>

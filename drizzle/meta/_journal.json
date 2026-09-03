@@ -8,6 +8,13 @@
       "when": 1787838024695,
       "tag": "0000_chemical_the_hunter",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1788405248511,
+      "tag": "0001_fine_king_bedlam",
+      "breakpoints": true
     }
   ]
 }
